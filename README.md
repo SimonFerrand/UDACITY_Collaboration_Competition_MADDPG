@@ -1,7 +1,6 @@
 [//]: # (Image References)
 
-[image1]: (./reports/gif_tennis_800px.gif) "Trained Agent"
-
+[image1]: ./reports/gif_tennis_800px.gif "Trained Agent"
 
 # Project 3: Collaboration and Competition
 
