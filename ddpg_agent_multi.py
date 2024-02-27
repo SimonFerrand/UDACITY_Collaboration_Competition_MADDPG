@@ -245,6 +245,7 @@ class OUNoise:
         self.sigma = 0
         #self.noise_decay = noise_decay       # new parameter added that reduces sigma with each reset call to reduce exploration and promote exploitation over time (test SF)
         self.seed = random.seed(seed)
+        self.seed2 = np.random.seed(seed)
         self.noise_sigma_initial = noise_sigma_initial
         self.noise_decay_episodes_to_min_sigma = noise_decay_episodes_to_min_sigma
         self.min_noise_sigma = min_noise_sigma
@@ -261,7 +262,8 @@ class OUNoise:
     def sample(self):
         """Update internal state and return it as a noise sample."""
         x = self.state
-        dx = self.theta * (self.mu - x) + self.sigma * np.array([random.random() for i in range(len(x))])
+        #dx = self.theta * (self.mu - x) + self.sigma * np.array([random.random() for i in range(len(x))])   # Problème : Problem: uniform distribution between 0 and 1 with mean 0.5. creates a bias because the disturbance added to the noise is not centered around zero but tends to be positive.
+        dx = self.theta * (self.mu - x) + self.sigma * (np.random.standard_normal(size=x.shape)) # Generates values following a normal distribution (also known as a Gaussian distribution) with a mean of 0 and a standard deviation of 1. This means that the values generated will be symmetrically distributed around zero.
         self.state = x + dx
         return self.state
 
